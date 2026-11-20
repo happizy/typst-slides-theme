@@ -9,6 +9,8 @@
   ratio: 4 / 3,
   title-color: title-color,
   speaker-notes: true,
+  animations: true,
+  animation-style: "next-grayed",
   counter-total: false,
   toc: true,
   title: [Presentation Title],
@@ -49,7 +51,7 @@
   == Grids, boxes, code, quotes, and terms
   #grid(
     columns: (1fr, 1.2fr),
-    gutter: 0.75em,
+    gutter: 0.76em,
   )[
     #box(radius: 4pt, fill: black.lighten(90%), inset: 6pt)[
       *Code snippets*
@@ -86,26 +88,43 @@
     ]
   ]
 
+  == Animated reveals
+
+  Separate animation steps with `>>>>>>`. It can be inline or appended to a
+  list item; delimiters in raw code are ignored. Revealed steps remain visible
+  as the slide advances.
+  #speaker-note([Introduce the six-character animation delimiter and its list syntax.])
+
+  >>>>>>
+
+  Choose how unrevealed steps are displayed:
+
+  - `"invisible"`: hide every future step. >>>>>>
+  - `"grayed"`: gray every future step. >>>>>>
+  - `"next-grayed"`: gray only the next step and hide later ones.
+
+  #speaker-note([Compare the three available animation styles.])
+
+  >>>>>>
+
+  Grid cells can be animated in the same way as list items. The `#animated-grid()` macro is a drop-in replacement for `#grid()`.
+  #animated-grid(columns: (1fr, 1fr), gutter: 0.4em, align: horizon)[
+    *1.* Start at the left <grid-animation-start>
+  ][
+    *2.* Continue across the row
+  ][
+    *3.* Begin the next row#footnote[Footnotes follow their animation timing.]
+  ][
+    *4.* Final cell; #link(<grid-animation-start>)[link to the first overlay]
+    #speaker-note([The final grid cell and this note appear on the last grid overlay.])
+  ]
+
   == Figures, tables, and page breaks
 
   #speaker-note([
-    Page breaks require a little extra care when using speaker notes.\
-    Use `skip` to move a note to a continuation page:
-
-    ```typ
-    #speaker-note(skip: 1)[
-      This note appears one page later.
-    ]
-    ```
+    This note belongs to the main figures-and-tables segment. To annotate a
+    continuation, place its speaker note after the explicit `#pagebreak()`.
   ])
-
-  #speaker-note(
-    skip: 1,
-  )[This note appears on the first continuation page created with `#pagebreak()`.]
-
-  #speaker-note(
-    skip: 2,
-  )[Because `skip: 2` exceeds this slide's continuation count, this note appears on the following slide. Choose skip values carefully.]
 
   #grid(columns: (1fr, 1.6fr), gutter: 0.75em)[
     #box(radius: 4pt, fill: black.lighten(90%), inset: 6pt)[
@@ -142,7 +161,13 @@
     ]
   ]
   #pagebreak()
+  #speaker-note([This note belongs to the continuation's first animation step.])
   This continuation page#footnote([A continuation page belongs to the preceding slide.]) was created with `#pagebreak()`. Typst can also create one automatically when content#footnote([By default footnotes sit on the same line.]) overflows#footnote(newline: true)[`newline` forces footnotes to start on a new line.].
+
+  >>>>>>
+
+  Its animations start a fresh sequence while keeping the parent slide number.
+  #speaker-note([This note appears with the continuation's second animation step.])
 
   #hidden-section([Section omitted from the ToC])
   == Content in a hidden section
