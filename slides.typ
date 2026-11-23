@@ -130,7 +130,7 @@
     #box(radius: 4pt, fill: black.lighten(90%), inset: 6pt)[
       *Figures*
       #figure(caption: [Picture of a frog])[
-        #box(clip: true, radius: 4pt)[#image("assets/figures/frog.png")]
+        #image("assets/figures/frog.png")
       ]<fig:frog>
       Figures can have captions and labels. Reference a labeled figure with #ref(<fig:frog>).#v(1fr)
     ]
