@@ -215,22 +215,6 @@ in the slide instead of in the native bottom area:
 #footnotes-display()
 ```
 
-## Images
-
-A wildcard theme import replaces Typst's native `image` with a compatible
-wrapper that clips images to a `4pt` corner radius. All native image arguments
-remain available. The additional `inset` argument controls padding inside the
-clipped box and defaults to `0pt`:
-
-```typ
-#image(path("figure.png"), width: 5cm)
-#image(path("figure.png"), width: 5cm, inset: 6pt)
-```
-
-Because the wrapper lives in the theme module, file sources must be constructed
-with `path(...)`. This resolves the file relative to the Typst source containing
-the call before it crosses the module boundary. Raw image bytes remain supported.
-
 ## French date helper
 
 An optional helper formats today's date in French:

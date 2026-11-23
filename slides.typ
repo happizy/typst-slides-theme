@@ -19,12 +19,12 @@
   date: datetime.today().display("[day] [month repr:short] [year]"),
   // date: date-fr(), // Requires the optional import above.
   title-logo: (
-    image(path("assets/logos/helmet-white.png"), height: 3.2cm),
-    image(path("assets/logos/zaku-white.png"), height: 4cm),
+    image("assets/logos/helmet-white.png", height: 3.2cm),
+    image("assets/logos/zaku-white.png", height: 4cm),
   ),
   content-logo: (
-    image(path("assets/logos/helmet-black.png"), height: 0.7cm),
-    image(path("assets/logos/zaku-black.png"), height: 0.9cm),
+    image("assets/logos/helmet-black.png", height: 0.7cm),
+    image("assets/logos/zaku-black.png", height: 0.9cm),
   ),
   title-note: [This note appears only on the title slide.],
   toc-note: [This note appears only on the first ToC page.],
@@ -45,7 +45,7 @@
 
     For example:
     #rect($k "is a constant"$)
-    #image(path("assets/figures/Tetrahedron.png"), width: 1cm)
+    #image("assets/figures/Tetrahedron.png", width: 1cm)
   ])
 
   == Grids, boxes, code, quotes, and terms
@@ -130,7 +130,7 @@
     #box(radius: 4pt, fill: black.lighten(90%), inset: 6pt)[
       *Figures*
       #figure(caption: [Picture of a frog])[
-        #image(path("assets/figures/frog.png"))
+        #box(clip: true, radius: 4pt)[#image("assets/figures/frog.png")]
       ]<fig:frog>
       Figures can have captions and labels. Reference a labeled figure with #ref(<fig:frog>).#v(1fr)
     ]
@@ -145,7 +145,7 @@
             inset: 10pt,
             align: horizon,
             table.header([], [*Volume*], [*Parameters*]),
-            image(path("assets/figures/Cylinder.png")),
+            image("assets/figures/Cylinder.png"),
             $ pi h (D^2 - d^2) / 4 $,
             [
               $h$: height \
@@ -153,7 +153,7 @@
               $d$: inner radius
             ],
 
-            image(path("assets/figures/Tetrahedron.png")), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
+            image("assets/figures/Tetrahedron.png"), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
           )
         ]
       ]<tab:volumes>

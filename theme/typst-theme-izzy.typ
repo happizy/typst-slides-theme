@@ -20,40 +20,6 @@
   named: args.named(),
 ))
 
-// Image framing --------------------------------------------------------------
-// Keep access to Typst's native function before the public wrapper shadows it.
-// Theme backgrounds use this native binding to avoid adding a framing box.
-#let __std-image = image
-
-/// Replaces Typst's native `image` after a wildcard theme import.
-///
-/// All native arguments are supported. The additional `inset` argument
-/// controls padding inside a clipped box with a fixed `4pt` corner radius.
-/// File sources must use `path(...)` so Typst resolves them in the calling
-/// slide file before passing them across the theme module boundary.
-#let image(source, ..args) = {
-  assert(
-    type(source) != str,
-    message: "wrap image file sources in path(...), for example path(\"images/photo.png\")",
-  )
-  let inset = args.named().at("inset", default: 0pt)
-  let forwarded = (:)
-  for (key, value) in args.named() {
-    if key != "inset" {
-      forwarded.insert(key, value)
-    }
-  }
-  if "icc" in forwarded {
-    assert(
-      type(forwarded.icc) != str,
-      message: "wrap ICC profile file names in path(...) before passing them to image",
-    )
-  }
-  box(inset: inset, clip: true, radius: 4pt)[
-    #__std-image(source, ..forwarded)
-  ]
-}
-
 // Footnotes run-in ------------------------------------------------------------
 // Override #footnote to render entries in a compact run-in list at the bottom
 // of the content. `newline: true` forces a line break before that entry.
@@ -610,7 +576,7 @@
       } else if count-element(body, raw) > 0 {
         raw
       } else {
-        __std-image
+        image
       }
     }
   }
@@ -1305,7 +1271,7 @@
     margin: page-margin,
     background: place(
       top + left,
-      __std-image(
+      image(
         "theme-assets/bg-content.png",
         width: slide-width,
         height: height,
@@ -1435,7 +1401,7 @@
     pagebreak(weak: true)
     set page(header: none, footer: none, margin: notes-margin, background: place(
       top + left,
-      __std-image(
+      image(
         "theme-assets/bg-section.png",
         width: slide-width,
         height: height,
@@ -1694,7 +1660,7 @@
     }
     set page(footer: none, header: none, margin: notes-margin, background: place(
       top + left,
-      __std-image(
+      image(
         "theme-assets/bg-title.png",
         width: slide-width,
         height: height,
