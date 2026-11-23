@@ -29,9 +29,13 @@
 ///
 /// All native arguments are supported. The additional `inset` argument
 /// controls padding inside a clipped box with a fixed `4pt` corner radius.
-/// String paths are project-root-relative; use `path(...)` when a path should
-/// remain relative to the Typst file containing the call.
+/// File sources must use `path(...)` so Typst resolves them in the calling
+/// slide file before passing them across the theme module boundary.
 #let image(source, ..args) = {
+  assert(
+    type(source) != str,
+    message: "wrap image file sources in path(...), for example path(\"images/photo.png\")",
+  )
   let inset = args.named().at("inset", default: 0pt)
   let forwarded = (:)
   for (key, value) in args.named() {
@@ -39,18 +43,10 @@
       forwarded.insert(key, value)
     }
   }
-  // The native image call happens in this theme module. Turn string paths into
-  // project-root paths so calls in the main deck keep their expected meaning.
-  // A resolved `path` value and raw image bytes pass through unchanged.
-  let source = if type(source) == str {
-    path(if source.starts-with("/") { source } else { "/" + source })
-  } else {
-    source
-  }
-  if "icc" in forwarded and type(forwarded.icc) == str {
-    let profile = forwarded.icc
-    forwarded.icc = path(
-      if profile.starts-with("/") { profile } else { "/" + profile },
+  if "icc" in forwarded {
+    assert(
+      type(forwarded.icc) != str,
+      message: "wrap ICC profile file names in path(...) before passing them to image",
     )
   }
   box(inset: inset, clip: true, radius: 4pt)[

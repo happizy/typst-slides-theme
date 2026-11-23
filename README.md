@@ -223,12 +223,13 @@ remain available. The additional `inset` argument controls padding inside the
 clipped box and defaults to `0pt`:
 
 ```typ
-#image("figure.png", width: 5cm)
-#image("figure.png", width: 5cm, inset: 6pt)
+#image(path("figure.png"), width: 5cm)
+#image(path("figure.png"), width: 5cm, inset: 6pt)
 ```
 
-String paths are resolved from the project root. In an included file, use
-`#image(path("figure.png"))` to resolve the image relative to that file.
+Because the wrapper lives in the theme module, file sources must be constructed
+with `path(...)`. This resolves the file relative to the Typst source containing
+the call before it crosses the module boundary. Raw image bytes remain supported.
 
 ## French date helper
 
